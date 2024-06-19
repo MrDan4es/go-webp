@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "decoder",
+    srcs = [
+        "decoder.go",
+        "options.go",
+    ],
+    cgo = True,
+    clinkopts = ["-lwebp"],
+    importpath = "github.com/kolesa-team/go-webp/decoder",
+    visibility = ["//visibility:public"],
+    deps = ["//utils"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":decoder",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "decoder_test",
+    srcs = [
+        "decoder_test.go",
+        "options_test.go",
+    ],
+    embed = [":decoder"],
+    deps = [
+        "//utils",
+        "@com_github_stretchr_testify//require",
+    ],
+)

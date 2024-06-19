@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "webp",
+    srcs = ["webp.go"],
+    importpath = "github.com/kolesa-team/go-webp/webp",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//decoder",
+        "//encoder",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":webp",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "webp_test",
+    srcs = ["webp_test.go"],
+    embed = [":webp"],
+    deps = [
+        "//decoder",
+        "//encoder",
+        "@com_github_stretchr_testify//require",
+    ],
+)
